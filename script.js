@@ -1,41 +1,49 @@
 // --- Configuration ---
-const maxClicks = 5; // Taps to break the egg
+const maxClicks = 5; 
 
-// --- State Variables ---
+// --- Variables ---
 let clickCount = 0;
 let isCracked = false;
+let musicStarted = false;
 
 // --- Elements ---
 const eggImg = document.getElementById('egg-img');
 const instructionText = document.getElementById('instruction-text');
 const chickContainer = document.getElementById('chick-container');
 const footerMsg = document.getElementById('footer-msg');
+const shadow = document.querySelector('.pedestal-shadow'); 
+const marquee = document.getElementById('marquee'); 
 
-// --- Audio Setup (Safe-play) ---
-// Renamed to standard: crack.mp3 and cheer.mp3
+// --- Audio ---
 const crackSound = new Audio('assets/audio/crack.mp3'); 
 const cheerSound = new Audio('assets/audio/cheer.mp3');
+const bgm = document.getElementById('bgm'); 
+bgm.volume = 0.3; // Soft background volume
 
-// --- Main Interaction ---
+// --- Interaction ---
 eggImg.addEventListener('click', function() {
     
-    if (isCracked) return; // Stop clicks after it breaks
+    // 1. Play BGM on first tap (Autoplay policy fix)
+    if (!musicStarted) {
+        bgm.play().catch(e => console.log("BGM autoplay prevented"));
+        musicStarted = true;
+    }
 
-    // 1. Remove Heartbeat & Add Shake
-    eggImg.style.animation = 'none'; // Stop heartbeat
-    eggImg.offsetHeight; // Trigger reflow
-    eggImg.style.animation = null; // Clear manual style so CSS takes over
+    if (isCracked) return; 
+
+    // Reset Animations for click effect
+    eggImg.style.animation = 'none'; 
+    eggImg.offsetHeight; 
+    eggImg.style.animation = null; 
     
+    // Add Shake
     eggImg.classList.remove('shake'); 
-    void eggImg.offsetWidth; // Trigger reflow
+    void eggImg.offsetWidth; 
     eggImg.classList.add('shake');
 
-    // 2. Vibrate Phone (Android only)
     if (navigator.vibrate) navigator.vibrate(50); 
 
     clickCount++;
-
-    // 3. Game Logic
     handleEggState(clickCount);
 });
 
@@ -52,72 +60,67 @@ function handleEggState(count) {
         playSound(crackSound);
     } 
     else if (count >= maxClicks) {
-        // --- THE BIG REVEAL ---
         isCracked = true; 
         triggerFinale();
     }
 }
 
 function triggerFinale() {
-    // 1. Break the Egg
+    // 1. Break Egg
     changeImage("assets/images/egg-shell.png"); 
-    instructionText.style.opacity = '0'; // Hide text
+    instructionText.style.opacity = '0';
+    shadow.style.opacity = '0'; // Hide shadow
+    
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]); 
     playSound(cheerSound);
 
-    // 2. Confetti Explosion
+    // 2. Confetti
     fireConfetti();
 
-    // 3. Text Fly Out Sequence
-    // "ALL"
+    // 3. Text Fly Out (Timed Sequence)
     setTimeout(() => {
         const w1 = document.getElementById('word1');
         w1.classList.add('visible', 'pos-left');
     }, 600); 
 
-    // "THE"
     setTimeout(() => {
         const w2 = document.getElementById('word2');
         w2.classList.add('visible', 'pos-center');
     }, 1400); 
 
-    // "BEST"
     setTimeout(() => {
         const w3 = document.getElementById('word3');
         w3.classList.add('visible', 'pos-right');
+        
+        // SHOW MARQUEE HERE
+        marquee.style.opacity = '1'; 
+        
         fireConfetti(); 
     }, 2200); 
 
-    // 4. THE CHICK REVEAL
+    // 4. Chick Reveal
     setTimeout(() => {
         chickContainer.style.display = 'block';
-        chickContainer.classList.add('fly-in'); // Start Fly Up
+        chickContainer.classList.add('fly-in');
         
-        // Wait 1.5s (duration of fly-in), then lock it in place
         setTimeout(() => {
             chickContainer.classList.remove('fly-in'); 
-            chickContainer.classList.add('chick-hovering'); // Permanently stays
-            
+            chickContainer.classList.add('chick-hovering');
             footerMsg.classList.add('show');
-        }, 1500); 
+        }, 1200); 
         
     }, 3000); 
 }
 
-// Helper: Change Image Source safely
-function changeImage(path) {
-    eggImg.src = path;
-}
+function changeImage(path) { eggImg.src = path; }
 
-// Helper: Play Sound safely
 function playSound(audio) {
     if (audio) {
         audio.currentTime = 0;
-        audio.play().catch(e => console.log("Audio play failed: User interaction required first"));
+        audio.play().catch(e => console.log("Audio play failed"));
     }
 }
 
-// Helper: Confetti Cannon
 function fireConfetti() {
     confetti({
         particleCount: 150,

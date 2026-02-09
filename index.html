@@ -3,46 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>All The Best Anda!</title>
+    <title>All The Best Andyy!</title>
     <link rel="stylesheet" href="style.css">
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <audio id="bgm" loop>
+        <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="gradient-overlay"></div>
+    
     <div class="bg-shape shape-1">✨</div>
     <div class="bg-shape shape-2">❤️</div>
     <div class="bg-shape shape-3">🥚</div>
     <div class="bg-shape shape-4">🍀</div>
-    <div class="bg-shape shape-5">✨</div>
+    <div class="bg-shape shape-5">☁️</div>
+    <div class="bg-shape shape-6">✨</div>
 
     <div class="container">
         <div class="flying-text-container">
-            <span id="word1" class="fly-word">ALL</span>
+            <span id="word1" class="fly-word">ALL <span class="sparkle s1">✨</span></span>
             <span id="word2" class="fly-word">THE</span>
-            <span id="word3" class="fly-word">BEST</span>
+            <span id="word3" class="fly-word">BEST <span class="sparkle s2">✨</span></span>
+        </div>
+
+        <div class="marquee-wrapper" id="marquee">
+            <div class="marquee-track">
+                <div class="marquee-content">
+                    Don't stress, do your best! • You are capable of amazing things • We believe in you! • Good Luck Andyyy! • 
+                </div>
+                <div class="marquee-content">
+                    Don't stress, do your best! • You are capable of amazing things • We believe in you! • Good Luck Andyyy! •
+                </div>
+            </div>
         </div>
 
         <div class="egg-stage" id="egg-stage">
-            <h2 id="instruction-text">Tap the egg to de-stress...</h2>
+            <h2y id="instruction-text">Tap the egg to de-stress...</h2y
+            
             <div class="egg-wrapper">
                 <img src="assets/images/egg-whole.png" id="egg-img" alt="Egg">
+                <div class="pedestal-shadow"></div>
             </div>
         </div>
 
         <div class="chick-container" id="chick-container">
             <img src="assets/images/chick-flying.png" class="chick-body" alt="Flying Chick">
             <div class="photo-frame">
-                <img src="assets/images/anda.png" alt="Anusha">
+                <img src="assets/images/anusha-reveal.png" alt="Anusha">
             </div>
         </div>
         
         <div class="footer-msg" id="footer-msg">
-            <p>You're going to crush it, Andyyyy! ❤️</p>
+            <p>You're going to crush it, Andyy! ❤️</p>
+        </div>
+
+        <div class="cloud-decoration">
+            <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffffff" fill-opacity="0.4" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
         </div>
     </div>
 
