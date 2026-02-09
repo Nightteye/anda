@@ -1,0 +1,209 @@
+/* --- 1. Base Setup (Mobile First) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(180deg, #FFF0F5 0%, #E6E6FA 100%); /* Soft Pink to Lavender */
+    font-family: 'Patrick Hand', cursive; 
+    height: 100vh;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    user-select: none; 
+    position: relative;
+}
+
+/* --- 2. Floating Background Shapes (New) --- */
+.bg-shape {
+    position: absolute;
+    opacity: 0.4;
+    z-index: -1; /* Behind everything */
+    animation: floatBackground 15s infinite linear;
+    color: #FFD1D1; /* Soft pastel color */
+    pointer-events: none;
+}
+
+.shape-1 { top: 10%; left: 10%; font-size: 2rem; animation-duration: 14s; }
+.shape-2 { top: 80%; left: 15%; font-size: 1.5rem; animation-duration: 18s; }
+.shape-3 { top: 40%; left: 85%; font-size: 2.5rem; animation-duration: 22s; }
+.shape-4 { top: 15%; left: 75%; font-size: 2rem; animation-duration: 16s; }
+.shape-5 { top: 70%; left: 80%; font-size: 1.8rem; animation-duration: 20s; }
+
+/* --- 3. Typography --- */
+h2 {
+    color: #555;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    padding: 0 20px;
+    z-index: 10;
+}
+
+/* --- 4. The Egg --- */
+.egg-wrapper {
+    position: relative;
+    width: 280px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+#egg-img {
+    width: 100%;
+    max-width: 240px; 
+    transition: transform 0.1s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; 
+    z-index: 5;
+    
+    /* New: Gentle Pulse Animation */
+    animation: heartbeat 2s infinite ease-in-out;
+}
+
+/* Animation: Shake on Click (Overrides Heartbeat) */
+#egg-img.shake {
+    animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* --- 5. Flying Text --- */
+.fly-word {
+    position: absolute;
+    font-family: 'Fredoka One', cursive; 
+    font-size: 3.5rem; 
+    color: #FF6B6B; 
+    opacity: 0;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100; 
+    text-shadow: 3px 3px 0px #fff, 0 0 10px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
+.fly-word.visible {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+}
+
+.pos-left { top: 15%; left: 20%; transform: rotate(-10deg) !important; }
+.pos-center { top: 8%; left: 50%; transform: rotate(0deg) !important; }
+.pos-right { top: 15%; left: 80%; transform: rotate(10deg) !important; }
+
+/* --- 6. The Flying Chick & Photo --- */
+.chick-container {
+    display: none; 
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    z-index: 50;
+}
+
+/* Animation 1: Fly In */
+.fly-in {
+    animation: flyUp 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Animation 2: Permanent Hover (This keeps it there!) */
+.chick-hovering {
+    top: 35% !important; /* Locks position */
+    animation: bob 2s infinite ease-in-out;
+}
+
+.chick-body {
+    width: 110px;
+    display: block;
+    margin: 0 auto;
+    /* Bumblebee Wiggle */
+    animation: flutter 0.15s infinite linear; 
+}
+
+.photo-frame {
+    width: 160px; 
+    height: 160px;
+    margin: -10px auto 0; 
+    background: #fff;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform: rotate(3deg); 
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Footer Message */
+.footer-msg {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1s;
+    font-size: 1.4rem;
+    color: #666;
+    font-weight: bold;
+}
+.footer-msg.show {
+    opacity: 1;
+}
+
+/* --- 7. Animations Keyframes --- */
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-2px, 0, 0) rotate(-2deg); }
+    20%, 80% { transform: translate3d(3px, 0, 0) rotate(2deg); }
+    30%, 50%, 70% { transform: translate3d(-5px, 0, 0) rotate(-5deg); }
+    40%, 60% { transform: translate3d(5px, 0, 0) rotate(5deg); }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes flutter {
+    0% { transform: rotate(-6deg); }
+    50% { transform: rotate(6deg); }
+    100% { transform: rotate(-6deg); }
+}
+
+@keyframes flyUp {
+    0% { top: 100%; }
+    100% { top: 35%; } 
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-20px); }
+}
+
+@keyframes floatBackground {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(20deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Mobile Tweaks */
+@media (max-width: 380px) {
+    .fly-word { font-size: 2.5rem; }
+    .pos-left { left: 15%; }
+    .pos-right { left: 85%; }
+    .chick-hovering { top: 40% !important; }
+}
